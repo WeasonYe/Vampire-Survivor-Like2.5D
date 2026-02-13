@@ -306,4 +306,101 @@ public class EnemySpawner : Singleton<EnemySpawner>
             SpawnEnemy();
         }
     }
+
+    /// <summary>
+    /// 在编辑器中绘制Gizmos，用于可视化地图边界
+    /// </summary>
+    private void OnDrawGizmos()
+    {
+        if (!useMapBounds)
+            return;
+
+        // 计算地图边界框的中心和大小
+        Vector3 center = (mapMinBounds + mapMaxBounds) / 2f;
+        Vector3 size = mapMaxBounds - mapMinBounds;
+
+        // 设置Gizmos颜色为绿色
+        Gizmos.color = Color.green;
+
+        // 绘制地图边界框
+        Gizmos.DrawWireCube(center, size);
+
+        // 如果玩家存在，绘制生成范围
+        if (player != null)
+        {
+            // 设置Gizmos颜色为黄色
+            Gizmos.color = Color.yellow;
+
+            // 绘制生成范围圆圈
+            Gizmos.DrawWireSphere(player.position, spawnRadius);
+
+            // 设置Gizmos颜色为红色
+            Gizmos.color = Color.red;
+
+            // 绘制最小生成距离圆圈
+            Gizmos.DrawWireSphere(player.position, minSpawnDistance);
+        }
+    }
+
+    /// <summary>
+    /// 在编辑器中绘制选中时的Gizmos，用于可视化地图边界
+    /// </summary>
+    private void OnDrawGizmosSelected()
+    {
+        if (!useMapBounds)
+            return;
+
+        // 计算地图边界框的中心和大小
+        Vector3 center = (mapMinBounds + mapMaxBounds) / 2f;
+        Vector3 size = mapMaxBounds - mapMinBounds;
+
+        // 设置Gizmos颜色为半透明绿色
+        Gizmos.color = new Color(0f, 1f, 0f, 0.3f);
+
+        // 绘制地图边界框的填充
+        Gizmos.DrawCube(center, size);
+
+        // 绘制边界框的边框
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(center, size);
+
+        // 绘制边界角点标记
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(mapMinBounds, 0.5f);
+        Gizmos.DrawSphere(new Vector3(mapMaxBounds.x, mapMinBounds.y, mapMinBounds.z), 0.5f);
+        Gizmos.DrawSphere(new Vector3(mapMinBounds.x, mapMinBounds.y, mapMaxBounds.z), 0.5f);
+        Gizmos.DrawSphere(new Vector3(mapMaxBounds.x, mapMinBounds.y, mapMaxBounds.z), 0.5f);
+        Gizmos.DrawSphere(mapMaxBounds, 0.5f);
+        Gizmos.DrawSphere(new Vector3(mapMinBounds.x, mapMaxBounds.y, mapMaxBounds.z), 0.5f);
+        Gizmos.DrawSphere(new Vector3(mapMaxBounds.x, mapMaxBounds.y, mapMinBounds.z), 0.5f);
+        Gizmos.DrawSphere(new Vector3(mapMinBounds.x, mapMaxBounds.y, mapMinBounds.z), 0.5f);
+
+        // 如果玩家存在，绘制生成范围
+        if (player != null)
+        {
+            // 设置Gizmos颜色为半透明黄色
+            Gizmos.color = new Color(1f, 1f, 0f, 0.2f);
+
+            // 绘制生成范围圆圈的填充
+            Gizmos.DrawSphere(player.position, spawnRadius);
+
+            // 设置Gizmos颜色为黄色
+            Gizmos.color = Color.yellow;
+
+            // 绘制生成范围圆圈的边框
+            Gizmos.DrawWireSphere(player.position, spawnRadius);
+
+            // 设置Gizmos颜色为半透明红色
+            Gizmos.color = new Color(1f, 0f, 0f, 0.2f);
+
+            // 绘制最小生成距离圆圈的填充
+            Gizmos.DrawSphere(player.position, minSpawnDistance);
+
+            // 设置Gizmos颜色为红色
+            Gizmos.color = Color.red;
+
+            // 绘制最小生成距离圆圈的边框
+            Gizmos.DrawWireSphere(player.position, minSpawnDistance);
+        }
+    }
 }

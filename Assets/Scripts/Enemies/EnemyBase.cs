@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// 敌人基类，提供敌人的基础功能
 /// </summary>
-public class EnemyBase : MonoBehaviour
+public class EnemyBase : MonoBehaviour, IDamageable
 {
     [Header("生命值设置")]
     [Tooltip("最大生命值")]
@@ -57,6 +57,11 @@ public class EnemyBase : MonoBehaviour
     /// 是否死亡
     /// </summary>
     public bool IsDead => isDead;
+
+    /// <summary>
+    /// 接触伤害
+    /// </summary>
+    public float Damage => damage;
 
     protected virtual void Awake()
     {
@@ -190,44 +195,6 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    // 不再需要UpdateAttackCooldown方法，怪物通过碰撞检测造成伤害，不需要冷却时间
-
-    // 不再需要Attack方法，怪物通过碰撞检测造成伤害
-
-    /// <summary>
-    /// 对玩家造成伤害
-    /// </summary>
-    protected virtual void DealDamageToPlayer()
-    {
-        if (player == null || isDead)
-            return;
-        
-        // 调用玩家的受伤方法
-        PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
-        if (playerHealth != null)
-        {
-            playerHealth.TakeDamage(damage);
-            Debug.Log($"{gameObject.name} 对玩家造成 {damage} 点伤害");
-        }
-    }
-
-    /// <summary>
-    /// 碰撞检测，当怪物接触玩家时造成伤害
-    /// </summary>
-    /// <param name="collision">碰撞信息</param>
-    protected virtual void OnCollisionEnter(Collision collision)
-    {
-        if (isDead)
-            return;
-        
-        // 检查是否碰撞到玩家
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            // 对玩家造成伤害
-            DealDamageToPlayer();
-        }
-    }
-
     /// <summary>
     /// 受到伤害
     /// </summary>
@@ -244,6 +211,15 @@ public class EnemyBase : MonoBehaviour
         {
             Die();
         }
+    }
+
+    /// <summary>
+    /// 受到伤害（IDamageable接口实现）
+    /// </summary>
+    /// <param name="damage">伤害值</param>
+    public virtual void TakeDamage(int damage)
+    {
+        TakeDamage((float)damage);
     }
 
     /// <summary>

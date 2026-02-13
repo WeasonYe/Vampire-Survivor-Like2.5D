@@ -205,4 +205,28 @@ public class PlayerHealth : Singleton<PlayerHealth>
         currentHealth = maxHealth;
         isInvulnerable = false;
     }
+    
+    /// <summary>
+    /// CharacterController碰撞检测，当玩家碰到怪物时触发
+    /// </summary>
+    /// <param name="hit">碰撞信息</param>
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (isInvulnerable || IsDead)
+            return;
+        
+        // 检查是否碰撞到敌人
+        if (hit.gameObject.GetComponent<EnemyBase>() != null)
+        {
+            // 获取敌人组件
+            EnemyBase enemy = hit.gameObject.GetComponent<EnemyBase>();
+            
+            // 检查敌人是否还活着
+            if (!enemy.IsDead)
+            {
+                // 对玩家造成伤害
+                TakeDamage(enemy.Damage);
+            }
+        }
+    }
 }

@@ -366,6 +366,7 @@
 -analyzer:"D:/Unity Editor/2022.3.62f1c1/Editor/Data/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll"
 "Assets/Kevin Iglesias/Human Animations/Scripts/SpineProxy.cs"
 "Assets/Scripts/Combat/DamageSystem.cs"
+"Assets/Scripts/Combat/IDamageable.cs"
 "Assets/Scripts/Combat/Projectile.cs"
 "Assets/Scripts/Combat/WeaponBase.cs"
 "Assets/Scripts/Combat/Weapon_Gun.cs"
@@ -394,6 +395,13 @@
 "Assets/Scripts/Utilities/Extensions.cs"
 "Assets/Scripts/Utilities/Singleton.cs"
 "Assets/Scripts/Utilities/Timer.cs"
+"Assets/Scripts/Weapons/Strategies/AreaAttackStrategy.cs"
+"Assets/Scripts/Weapons/Strategies/AttackStrategySO.cs"
+"Assets/Scripts/Weapons/Strategies/IAttackStrategy.cs"
+"Assets/Scripts/Weapons/Strategies/OrbitingAttackStrategy.cs"
+"Assets/Scripts/Weapons/Strategies/PointBlankAttackStrategy.cs"
+"Assets/Scripts/Weapons/Strategies/ProjectileAttackStrategy.cs"
+"Assets/Scripts/Weapons/WeaponManager.cs"
 "Assets/TutorialInfo/Scripts/Readme.cs"
 -langversion:9.0
 /deterministic

@@ -49,7 +49,6 @@ public class PlayerController : Singleton<PlayerController>
     private bool useCharacterController = true;
 
     private CharacterController characterController;
-    private Rigidbody rigidbody;
     private Vector3 moveDirection;
     private Vector2 touchStartPosition;
     private Vector2 touchCurrentPosition;
@@ -70,9 +69,8 @@ public class PlayerController : Singleton<PlayerController>
     {
         base.Awake();
         
-        // 获取物理组件
+        // 获取CharacterController组件
         characterController = GetComponent<CharacterController>();
-        rigidbody = GetComponent<Rigidbody>();
         
         // 初始化当前速度
         currentSpeed = moveSpeed;
@@ -88,12 +86,6 @@ public class PlayerController : Singleton<PlayerController>
             {
                 characterController = gameObject.AddComponent<CharacterController>();
             }
-        }
-        
-        // 如果使用Rigidbody，确保设置了正确的约束
-        if (rigidbody != null)
-        {
-            rigidbody.freezeRotation = true;
         }
     }
 
@@ -247,11 +239,6 @@ public class PlayerController : Singleton<PlayerController>
     {
         if (moveDirection.magnitude < 0.1f)
         {
-            // 没有输入，停止移动
-            if (rigidbody != null && !useCharacterController)
-            {
-                rigidbody.velocity = Vector3.zero;
-            }
             return;
         }
         
@@ -262,14 +249,10 @@ public class PlayerController : Singleton<PlayerController>
         Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
         
-        // 根据使用的物理组件类型应用移动
+        // 使用CharacterController移动
         if (useCharacterController && characterController != null)
         {
             characterController.Move(movement);
-        }
-        else if (rigidbody != null)
-        {
-            rigidbody.MovePosition(rigidbody.position + movement);
         }
         else
         {
@@ -317,11 +300,6 @@ public class PlayerController : Singleton<PlayerController>
         moveDirection = Vector3.zero;
         IsMoving = false;
         IsSprinting = false;
-        
-        if (rigidbody != null)
-        {
-            rigidbody.velocity = Vector3.zero;
-        }
     }
 
     /// <summary>
@@ -335,10 +313,6 @@ public class PlayerController : Singleton<PlayerController>
             characterController.enabled = false;
             transform.position = position;
             characterController.enabled = true;
-        }
-        else if (rigidbody != null)
-        {
-            rigidbody.MovePosition(position);
         }
         else
         {
