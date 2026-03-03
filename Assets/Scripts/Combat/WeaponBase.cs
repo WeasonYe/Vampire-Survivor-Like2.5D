@@ -68,13 +68,6 @@ public class WeaponBase : MonoBehaviour
     /// </summary>
     protected virtual void FindOwner()
     {
-        // 优先查找父对象
-        if (transform.parent != null)
-        {
-            owner = transform.parent;
-            return;
-        }
-
         // 如果没有父对象，查找玩家
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
@@ -99,7 +92,7 @@ public class WeaponBase : MonoBehaviour
     /// 获取攻击间隔
     /// </summary>
     /// <returns>攻击间隔（秒）</returns>
-    protected virtual float GetAttackInterval()
+    public virtual float GetAttackInterval()
     {
         if (attackIntervalOverride > 0f)
         {

@@ -116,14 +116,7 @@ public class ProjectileAttackStrategy : AttackStrategySO
             Vector3 projectileDirection = Quaternion.Euler(0f, currentAngle, 0f) * direction;
 
             // 创建子弹
-            GameObject projectile = CreateProjectile(owner, projectileDirection, damage);
-
-            // 初始化子弹
-            // Bullet bullet = projectile.GetComponent<Bullet>();
-            // if (bullet != null)
-            // {
-            //     bullet.Initialize(damage, projectileSpeed, projectileLifetime, enemyLayer);
-            // }
+            CreateProjectile(owner, projectileDirection, damage);
         }
     }
 
@@ -148,11 +141,29 @@ public class ProjectileAttackStrategy : AttackStrategySO
             projectile = Instantiate(projectilePrefab, spawnPosition, Quaternion.LookRotation(direction));
         }
 
-        // 设置子弹速度方向
-        Rigidbody rb = projectile.GetComponent<Rigidbody>();
-        if (rb != null)
+        // 获取Projectile组件并初始化
+        Projectile projectileComponent = projectile.GetComponent<Projectile>();
+        if (projectileComponent != null)
         {
-            rb.velocity = direction * projectileSpeed;
+            // 计算是否暴击
+            bool isCritical = false;
+            if (DamageSystem.Instance != null)
+            {
+                // 这里可以根据武器等级计算暴击几率
+                isCritical = DamageSystem.Instance.IsCritical(0.1f);
+            }
+
+            // 初始化投射物
+            projectileComponent.Initialize(damage, projectileSpeed, projectileLifetime, DamageType.Physical, isCritical, enemyLayer);
+        }
+        else
+        {
+            // 如果没有Projectile组件，使用旧的Rigidbody方式
+            Rigidbody rb = projectile.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.velocity = direction * projectileSpeed;
+            }
         }
 
         return projectile;

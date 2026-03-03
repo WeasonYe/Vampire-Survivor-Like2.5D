@@ -33,6 +33,11 @@ public abstract class AttackStrategySO : ScriptableObject, IAttackStrategy
     [SerializeField]
     protected LayerMask enemyLayer = 1 << 6; // 默认为第6层
 
+    [Header("武器预制体")]
+    [Tooltip("该策略使用的武器预制体（优先级高于WeaponManager中的映射）")]
+    [SerializeField]
+    public GameObject weaponPrefab;
+
     /// <summary>
     /// 获取当前等级下的基础伤害
     /// </summary>

@@ -105,11 +105,19 @@ public class OrbitingAttackStrategy : AttackStrategySO
         foreach (Collider collider in hitColliders)
         {
             // 检查是否是敌人
-            IDamageable damageable = collider.GetComponent<IDamageable>();
-            if (damageable != null)
+            if (DamageSystem.Instance != null)
             {
-                damageable.TakeDamage(damage);
+                DamageSystem.Instance.DealDamage(collider.gameObject, damage, DamageType.Physical, false, null, owner.gameObject);
                 Debug.Log($"Orbiting attack dealt {damage} damage to {collider.gameObject.name}");
+            }
+            else
+            {
+                IDamageable damageable = collider.GetComponent<IDamageable>();
+                if (damageable != null)
+                {
+                    damageable.TakeDamage(damage);
+                    Debug.Log($"Orbiting attack dealt {damage} damage to {collider.gameObject.name}");
+                }
             }
         }
     }

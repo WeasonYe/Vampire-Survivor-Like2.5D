@@ -315,8 +315,8 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.2
-  m_Height: 1
+  m_Radius: 0.3
+  m_Height: 1.2
   m_Direction: 1
   m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!114 &2607220399007657185
@@ -331,18 +331,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb4dff8eb4c40d64ca2403d93fb26eb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  moveSpeed: 1
+  maxHealth: 30
+  moveSpeed: 3
   rotateSpeed: 180
-  detectionRange: 20
-  damage: 10
-  isSwarm: 1
-  swarmDetectionRange: 8
-  swarmFollowDistance: 3
-  canJumpAttack: 0
-  jumpAttackCooldown: 3
-  jumpAttackRange: 5
-  jumpForce: 5
+  damage: 5
+  showHealthBar: 1
+  healthBarPrefab: {fileID: 4972949452208003485, guid: 2d0679b7ef8528540b6a5112b4d2d2a3,
+    type: 3}
+  speedMultiplier: 1.5
 --- !u!54 &-7922689277611226498
 Rigidbody:
   m_ObjectHideFlags: 0

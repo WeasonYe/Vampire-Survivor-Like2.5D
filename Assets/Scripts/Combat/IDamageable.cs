@@ -7,5 +7,6 @@ public interface IDamageable
     /// 受到伤害
     /// </summary>
     /// <param name="damage">伤害值</param>
-    void TakeDamage(int damage);
+    /// <param name="weapon">造成伤害的武器</param>
+    void TakeDamage(int damage, object weapon = null);
 }

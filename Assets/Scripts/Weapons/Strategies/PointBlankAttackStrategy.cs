@@ -60,11 +60,19 @@ public class PointBlankAttackStrategy : AttackStrategySO
             if (IsInSector(owner, collider.transform))
             {
                 // 对敌人造成伤害
-                IDamageable damageable = collider.GetComponent<IDamageable>();
-                if (damageable != null)
+                if (DamageSystem.Instance != null)
                 {
-                    damageable.TakeDamage(damage);
+                    DamageSystem.Instance.DealDamage(collider.gameObject, damage, DamageType.Physical, false, null, owner.gameObject);
                     Debug.Log($"Point blank attack dealt {damage} damage to {collider.gameObject.name}");
+                }
+                else
+                {
+                    IDamageable damageable = collider.GetComponent<IDamageable>();
+                    if (damageable != null)
+                    {
+                        damageable.TakeDamage(damage);
+                        Debug.Log($"Point blank attack dealt {damage} damage to {collider.gameObject.name}");
+                    }
                 }
             }
         }
